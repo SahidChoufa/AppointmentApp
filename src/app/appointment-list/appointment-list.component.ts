@@ -11,6 +11,8 @@ export class AppointmentListComponent implements OnInit {
   newAppointmentTitle: string = "";
   newAppointmentDate: Date = new Date();
   selectedService: Service | null = null;
+  customerName: string = "";
+  customerAge: number | null = null;
 
   appointments: Appointment[] = [];
 
@@ -52,19 +54,27 @@ export class AppointmentListComponent implements OnInit {
   }
 
   addAppointment() {
-    if (this.newAppointmentTitle.trim().length && this.newAppointmentDate && this.selectedService) {
+    if (this.newAppointmentTitle.trim().length && 
+        this.newAppointmentDate && 
+        this.selectedService &&
+        this.customerName.trim().length &&
+        this.customerAge) {
       let newAppointment: Appointment = {
         id: Date.now(),
         title: this.newAppointmentTitle,
         service: this.selectedService.name,
         price: this.selectedService.price,
-        date: this.newAppointmentDate
+        date: this.newAppointmentDate,
+        customerName: this.customerName,
+        customerAge: this.customerAge
       };
 
       this.appointments.push(newAppointment);
       this.newAppointmentTitle = "";
       this.newAppointmentDate = new Date();
       this.selectedService = null;
+      this.customerName = "";
+      this.customerAge = null;
 
       localStorage.setItem("appointments", JSON.stringify(this.appointments));
     }

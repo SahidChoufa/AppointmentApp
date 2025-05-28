@@ -3,7 +3,9 @@ export interface Appointment {
     title: string,
     service: string,
     price: number,
-    date: Date
+    date: Date,
+    customerName: string,
+    customerAge: number
 }
 
 export interface Service {
