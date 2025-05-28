@@ -1,34 +1,55 @@
-<div class="container">
-
-
-    <div class="card mt-3">
-        <div class="row">
-            <div class="col">
-                <h2 class="text-center">Create new appointment</h2>
-            </div>
-        </div>
-
-        <div class="row mt-3">
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body p-4">
+          <h2 class="text-center mb-4">Create New Appointment</h2>
+          
+          <div class="row g-3">
             <div class="col-md-6">
-                <input class="form-control" [(ngModel)]="newAppointmentTitle" placeholder="Appointment description">
+              <input 
+                class="form-control form-control-lg" 
+                [(ngModel)]="newAppointmentTitle" 
+                placeholder="Appointment description"
+                autocomplete="off">
             </div>
             <div class="col-md-4">
-                <input class="form-control" [(ngModel)]="newAppointmentDate" type="date" placeholder="Appointment date">
+              <input 
+                class="form-control form-control-lg" 
+                [(ngModel)]="newAppointmentDate" 
+                type="date">
             </div>
             <div class="col-md-2">
-                <button class="btn btn-primary w-100" (click)="addAppointment()">Add</button>
+              <button 
+                class="btn btn-primary btn-lg w-100" 
+                (click)="addAppointment()">
+                Add
+              </button>
             </div>
+          </div>
         </div>
+      </div>
+
+      <div class="mt-5">
+        <h2 class="text-center mb-4">Your Appointments</h2>
+        
+        <div class="list-group">
+          <div class="list-group-item d-flex justify-content-between align-items-center p-3" 
+               *ngFor="let appointment of appointments; index as i">
+            <div>
+              <h5 class="mb-1">{{appointment.title}}</h5>
+              <small class="text-muted">{{appointment.date | date:'EEEE, MMMM d, y'}}</small>
+            </div>
+            <button class="btn btn-danger" (click)="deleteAppointment(i)">
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center mt-4" *ngIf="appointments.length === 0">
+          <p class="text-muted">No appointments scheduled yet.</p>
+        </div>
+      </div>
     </div>
-
-
-    <h2 class="text-center mt-5">Appointments</h2>
-    
-    <ul class="list-group mt-3">
-        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let appointment of appointments; index as i">
-            {{appointment.title}} {{appointment.date | date:'dd.MM.yyyy'}} 
-            <button class="btn btn-danger" (click)="deleteAppointment(i)">Delete</button>
-        </li>
-    </ul>
-
+  </div>
 </div>
