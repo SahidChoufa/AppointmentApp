@@ -1,17 +1,38 @@
 <div class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card">
+    <div class="col-12">
+      <h1 class="text-center mb-5">Classic Cuts Barbershop</h1>
+      
+      <!-- Services Menu -->
+      <h2 class="text-center mb-4">Our Services</h2>
+      <div class="row g-4 mb-5">
+        <div class="col-md-3" *ngFor="let service of services">
+          <div class="card service-card h-100" 
+               [class.selected]="selectedService?.name === service.name"
+               (click)="selectService(service)">
+            <img [src]="service.image" class="card-img-top service-image" [alt]="service.name">
+            <div class="card-body">
+              <h5 class="card-title">{{service.name}}</h5>
+              <p class="price-tag">${{service.price}}</p>
+              <p class="duration-tag">{{service.duration}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking Form -->
+      <div class="card mb-5">
         <div class="card-body p-4">
-          <h2 class="text-center mb-4">Create New Appointment</h2>
+          <h2 class="text-center mb-4">Book Your Appointment</h2>
           
           <div class="row g-3">
             <div class="col-md-6">
               <input 
                 class="form-control form-control-lg" 
                 [(ngModel)]="newAppointmentTitle" 
-                placeholder="Appointment description"
-                autocomplete="off">
+                placeholder="Selected service"
+                [value]="selectedService?.name || ''"
+                readonly>
             </div>
             <div class="col-md-4">
               <input 
@@ -22,32 +43,37 @@
             <div class="col-md-2">
               <button 
                 class="btn btn-primary btn-lg w-100" 
-                (click)="addAppointment()">
-                Add
+                (click)="addAppointment()"
+                [disabled]="!selectedService">
+                Book Now
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="mt-5">
-        <h2 class="text-center mb-4">Your Appointments</h2>
-        
-        <div class="list-group">
-          <div class="list-group-item d-flex justify-content-between align-items-center p-3" 
-               *ngFor="let appointment of appointments; index as i">
-            <div>
-              <h5 class="mb-1">{{appointment.title}}</h5>
-              <small class="text-muted">{{appointment.date | date:'EEEE, MMMM d, y'}}</small>
+      <!-- Appointments List -->
+      <div class="card">
+        <div class="card-body">
+          <h2 class="text-center mb-4">Your Appointments</h2>
+          
+          <div class="list-group">
+            <div class="list-group-item d-flex justify-content-between align-items-center p-3" 
+                 *ngFor="let appointment of appointments; index as i">
+              <div>
+                <h5 class="mb-1">{{appointment.title}}</h5>
+                <small class="text-muted">{{appointment.date | date:'EEEE, MMMM d, y'}}</small>
+                <div class="price-tag mt-1">${{appointment.price}}</div>
+              </div>
+              <button class="btn btn-danger" (click)="deleteAppointment(i)">
+                Cancel
+              </button>
             </div>
-            <button class="btn btn-danger" (click)="deleteAppointment(i)">
-              Delete
-            </button>
           </div>
-        </div>
 
-        <div class="text-center mt-4" *ngIf="appointments.length === 0">
-          <p class="text-muted">No appointments scheduled yet.</p>
+          <div class="text-center mt-4" *ngIf="appointments.length === 0">
+            <p class="text-muted">No appointments scheduled yet.</p>
+          </div>
         </div>
       </div>
     </div>
